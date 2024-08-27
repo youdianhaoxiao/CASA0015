@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "58775303388",
+    "project_id": "flutter-login-32d49",
+    "storage_bucket": "flutter-login-32d49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58775303388:android:a347c35aa48bea8505b019",
+        "android_client_info": {
+          "package_name": "com.example.recycle_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6pWaaKoqHFyT4CRvqOFCrtdWee2bCxqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
