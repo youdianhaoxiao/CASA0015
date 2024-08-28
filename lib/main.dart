@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:recycle_app/firebase_options.dart';
 import 'package:recycle_app/screen/login.dart';
-import 'package:recycle_app/screen/map.dart';
+import 'package:recycle_app/screen/open.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LogInScreen(),
+      home: SplashScreen(),
     );
   }
 }
