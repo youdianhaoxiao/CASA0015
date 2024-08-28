@@ -40,9 +40,23 @@ jobs:
           VERSION=$(yq .version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' pubspec.yaml | head -n 1)
           echo "TAG_VERSION=$VERSION" >> $GITHUB_OUTPUT
   
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ steps.get_flutter_app_version.outputs.TAG_VERSION }}" >/dev/null 2>&1; then
+            # Tag exists, increment version
+            IFS='.' read -r -a VERSION_PARTS <<< "${{ steps.get_flutter_app_version.outputs.TAG_VERSION }}"
+            PATCH_VERSION=$((VERSION_PARTS[2]+1))
+            NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH_VERSION"
+            echo "NEW_TAG_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
+          else
+            # Tag does not exist, use the current version
+            echo "NEW_TAG_VERSION=${{ steps.get_flutter_app_version.outputs.TAG_VERSION }}" >> $GITHUB_OUTPUT
+          fi
+  
       - name: Create git tag
         run: |
-          git tag "v${{ steps.get_flutter_app_version.outputs.TAG_VERSION }}"
+          git tag "v${{ steps.check_tag.outputs.NEW_TAG_VERSION }}"
 
       - name: Install Flutter          
         uses: subosito/flutter-action@v2
@@ -74,8 +88,9 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/bundle/release/*.aab,build/app/outputs/flutter-apk/*.apk"
-          tag: "v${{ steps.get_flutter_app_version.outputs.TAG_VERSION }}"
+          tag: "v${{ steps.check_tag.outputs.NEW_TAG_VERSION }}"
           # token: ${{ secrets.PERSONAL_RELEASE_TOKEN }}
+
           
     # # Steps represent a sequence of tasks that will be executed as part of the job
     # steps:
