@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:geojson/geojson.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:google_maps_routes/google_maps_routes.dart'; // 导入包
+import 'package:google_maps_routes/google_maps_routes.dart';
 import 'package:recycle_app/screen/home.dart';
 
 
@@ -22,7 +22,7 @@ class _MapPageState extends State<mapPage> {
   Set<Marker> _markers = {};
   GoogleMapController? _mapController;
   late MapsRoutes route;
-  final String googleApiKey = 'AIzaSyANkjGanrCgEMwuFCt1FJw_leNRoO_bd_M';  // 替换为你的API Key
+  final String googleApiKey = 'AIzaSyANkjGanrCgEMwuFCt1FJw_leNRoO_bd_M';
 
   @override
   void initState() {
@@ -115,7 +115,7 @@ class _MapPageState extends State<mapPage> {
             Marker(
               markerId: MarkerId('currentLocation'),
               position: _currentL!,
-              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue), // 使用蓝色标记
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
               infoWindow: InfoWindow(title: 'Your Location'),
             ),
           );
@@ -135,7 +135,7 @@ class _MapPageState extends State<mapPage> {
         markerId: MarkerId(point.geoPoint.toString()),
         position: LatLng(point.geoPoint.latitude, point.geoPoint.longitude),
         infoWindow: InfoWindow(
-          title: "GeoJSON Point",
+          title: "Recycling Point",
           snippet: "${point.geoPoint.latitude}, ${point.geoPoint.longitude}",
         ),
         onTap: () => _drawRoute(TravelModes.driving, LatLng(point.geoPoint.latitude, point.geoPoint.longitude)),
@@ -159,8 +159,8 @@ class _MapPageState extends State<mapPage> {
 
     await route.drawRoute(
       points,
-      "Route to Marker",  // 路线名称
-      Color.fromRGBO(130, 78, 210, 1.0),  // 路线颜色
+      "Route to Marker", 
+      Color.fromRGBO(130, 78, 210, 1.0),
       googleApiKey,
       travelMode: travelMode,
     );
@@ -168,7 +168,7 @@ class _MapPageState extends State<mapPage> {
     // 设置每条路线的宽度
     setState(() {
       route.routes = route.routes.map((polyline) {
-        return polyline.copyWith(widthParam: 10);  // 设置为10像素宽度
+        return polyline.copyWith(widthParam: 10);
       }).toSet();
     });
   }
