@@ -84,12 +84,29 @@ jobs:
           name: flutter-appbundle
           path: build/app/outputs/bundle/release/*.aab
 
-      - name: Create Github Release
+      - name: Create or Update GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/bundle/release/*.aab,build/app/outputs/flutter-apk/*.apk"
-          tag: "v${{ steps.check_tag.outputs.NEW_TAG_VERSION }}"
-          # token: ${{ secrets.PERSONAL_RELEASE_TOKEN }}
+          artifacts: build/app/outputs/bundle/release/*.aab,build/app/outputs/flutter-apk/*.apk
+          tag: "v${{ steps.check_tag.outputs.NEW_TAG_VERSION }}" # 使用动态生成的标签
+          generateReleaseNotes: false
+          makeLatest: legacy
+          omitBody: false
+          omitBodyDuringUpdate: false
+          omitDraftDuringUpdate: false
+          omitName: false
+          omitNameDuringUpdate: false
+          omitPrereleaseDuringUpdate: false
+          removeArtifacts: false
+          replacesArtifacts: true
+          skipIfReleaseExists: false
+          updateOnlyUnreleased: true  # 添加此行以在标签存在时更新发布
+        env:
+          JAVA_HOME: /opt/hostedtoolcache/Java_Microsoft_jdk/11.0.19/x64
+          JAVA_HOME_11_X64: /opt/hostedtoolcache/Java_Microsoft_jdk/11.0.19/x64
+          FLUTTER_ROOT: /opt/hostedtoolcache/flutter/main-any-x64
+          PUB_CACHE: /home/runner/.pub-cache
+
 
           
     # # Steps represent a sequence of tasks that will be executed as part of the job
