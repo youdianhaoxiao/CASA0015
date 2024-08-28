@@ -40,9 +40,9 @@ dependencies:
   google_maps_flutter: ^2.5.3
   location: ^6.0.2
   geojson: ^1.0.0
-  flutter_polyline_points: ^2.0.0
+  flutter_polyline_points: ^1.0.0
   cloud_firestore: ^4.15.8
-
+  google_maps_routes: ^1.1.2
 
 
 dev_dependencies:

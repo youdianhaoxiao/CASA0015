@@ -3,7 +3,7 @@
 name: Flutter Build and Upload Android APK
 
 # Controls when the workflow will run
-on: workflow_dispatch
+on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   # push:
   #   branches: [ "main" ]
@@ -11,7 +11,7 @@ on: workflow_dispatch
   #   branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
-  # workflow_dispatch
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -64,19 +64,6 @@ jobs:
         with:
           name: flutter-apk
           path: build/app/outputs/flutter-apk/*.apk
-
-      - name: Save APPBUNDLE to Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: flutter-appbundle
-          path: build/app/outputs/bundle/release/*.aab
-
-      - name: Create Github Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/bundle/release/*.aab,build/app/outputs/flutter-apk/*.apk"
-          tag: "v${{ steps.get_flutter_app_version.outputs.TAG_VERSION }}"
-          # token: ${{ secrets.PERSONAL_RELEASE_TOKEN }}
 
     # # Steps represent a sequence of tasks that will be executed as part of the job
     # steps:

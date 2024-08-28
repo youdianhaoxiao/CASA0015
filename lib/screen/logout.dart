@@ -59,6 +59,7 @@ class _LogOutScreenState extends State<LogOutScreen> {
 
     Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
 
+
     String userName = data['user name'] ?? 'No username';
     String email = data['email'] ?? 'No email';
 
