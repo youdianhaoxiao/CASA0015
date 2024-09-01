@@ -16,12 +16,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  // 添加所有页面到 _widgetOptions 列表中
+  
   static final List<Widget> _widgetOptions = <Widget>[
     RecyclingGrid(),
-    ScoreboardPage(),  // 添加 ScoreboardPage 到这里
-    const mapPage(),   // 添加 mapPage 到这里
-    const LogOutScreen(),  // 添加 LogOutScreen 到这里
+    ScoreboardPage(),  
+    const mapPage(),   
+    const LogOutScreen(),  
   ];
 
   void _onItemTapped(int index) {
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text('Recycling Tracker'),
         ),
-        body: _widgetOptions.elementAt(_selectedIndex),  // 根据 _selectedIndex 切换页面
+        body: _widgetOptions.elementAt(_selectedIndex),  
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -46,12 +46,12 @@ class _HomePageState extends State<HomePage> {
               label: 'Tracker',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.recycling),
+              icon: Icon(Icons.leaderboard),
               label: 'Score Board',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.language),
-              label: 'Map',
+              icon: Icon(Icons.delete),
+              label: 'Recycling Map',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
@@ -101,12 +101,12 @@ class Choice {
 }
 
 const List<Choice> choices = <Choice>[
-  Choice(title: 'Plastic', icon: Icons.recycling),
-  Choice(title: 'Organics', icon: Icons.eco),
-  Choice(title: 'Glass', icon: Icons.bubble_chart),
+  Choice(title: 'Plastic', icon: Icons.shopping_basket),
+  Choice(title: 'Organics', icon: Icons.compost),
+  Choice(title: 'Glass', icon: Icons.science),
   Choice(title: 'Metal', icon: Icons.construction),
   Choice(title: 'Paper', icon: Icons.book),
-  Choice(title: 'Other', icon: Icons.more_horiz),
+  Choice(title: 'Other', icon: Icons.add_circle),
 ];
 
 class SelectCard extends StatelessWidget {
@@ -122,7 +122,7 @@ class SelectCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded(child: Icon(choice.icon, size: 50.0)),
+            Expanded(child: Icon(choice.icon, size: 50.0, color: Colors.green,)),
             Text(choice.title, style: TextStyle(fontSize: 16)),
           ],
         ),
@@ -155,6 +155,22 @@ class _SliderPageState extends State<SliderPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              width: 80,  
+              height: 80, 
+              decoration: BoxDecoration(
+                color: Colors.green,  
+                shape: BoxShape.circle,  
+              ),
+              child: Center(
+                child: Icon(
+                  widget.choice.icon,  
+                  size: 50.0,  
+                  color: Colors.white,  
+                ),
+              ),
+            ),
+            SizedBox(height: 20), 
             Text(
               '${_currentValue.toStringAsFixed(2)} kg',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -175,7 +191,7 @@ class _SliderPageState extends State<SliderPage> {
             ElevatedButton(
               onPressed: _isLoading ? null : () async {
                 setState(() {
-                  _isLoading = true; // 开始加载
+                  _isLoading = true; // 
                 });
                 try {
                   await updateField(widget.choice.title.toLowerCase(), _currentValue);
@@ -185,7 +201,7 @@ class _SliderPageState extends State<SliderPage> {
                 } finally {
                   if (mounted) {
                     setState(() {
-                      _isLoading = false; // 结束加载
+                      _isLoading = false; // 
                     });
                   }
                 }
@@ -221,13 +237,13 @@ class _SliderPageState extends State<SliderPage> {
           double others = (snapshot.get('others') as num).toDouble();
 
           double totalPoints = plastic + organic + glass + metal + paper + others;
-          totalPoints += newValue - (snapshot.get(field) as num).toDouble(); // 修正总分数
+          totalPoints += newValue - (snapshot.get(field) as num).toDouble(); // 
 
           transaction.update(docRef, {'totalPoints': totalPoints});
         });
       } catch (e) {
         print("Transaction failed: $e");
-        rethrow; // 重新抛出错误以便调用方处理
+        rethrow; 
       }
     } else {
       throw Exception("User is not logged in!");

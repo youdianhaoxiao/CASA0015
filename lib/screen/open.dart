@@ -10,7 +10,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // 在初始化时启动定时器
+    
     _navigateToLogin();
   }
 
