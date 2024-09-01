@@ -142,7 +142,7 @@ class SliderPage extends StatefulWidget {
 
 class _SliderPageState extends State<SliderPage> {
   double _currentValue = 0;
-  bool _isLoading = false; // 添加一个加载状态
+  bool _isLoading = false; 
 
   @override
   Widget build(BuildContext context) {
