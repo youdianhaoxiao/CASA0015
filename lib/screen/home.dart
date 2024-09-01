@@ -4,6 +4,7 @@ import 'package:recycle_app/screen/logout.dart';
 import 'package:recycle_app/screen/map.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recycle_app/screen/scoreboard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,50 +16,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
+  // 添加所有页面到 _widgetOptions 列表中
   static final List<Widget> _widgetOptions = <Widget>[
     RecyclingGrid(),
-    Text('Notifications Page'),
-    Text('Recycling Page'),
-    Text('Profile Page'),
+    ScoreboardPage(),  // 添加 ScoreboardPage 到这里
+    const mapPage(),   // 添加 mapPage 到这里
+    const LogOutScreen(),  // 添加 LogOutScreen 到这里
   ];
 
   void _onItemTapped(int index) {
-    if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const mapPage()),
-      );
-    }
-    if (index == 3) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const LogOutScreen()),
-      );
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Recycling Guide',
+      title: 'Recycling Tracker',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Recycling Guide'),
+          title: Text('Recycling Tracker'),
         ),
-        body: _widgetOptions.elementAt(_selectedIndex),
+        body: _widgetOptions.elementAt(_selectedIndex),  // 根据 _selectedIndex 切换页面
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.eco),
-              label: 'Eco',
+              label: 'Tracker',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.recycling),
-              label: 'Recycle',
+              label: 'Score Board',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.language),
@@ -153,6 +142,7 @@ class SliderPage extends StatefulWidget {
 
 class _SliderPageState extends State<SliderPage> {
   double _currentValue = 0;
+  bool _isLoading = false; // 添加一个加载状态
 
   @override
   Widget build(BuildContext context) {
@@ -183,22 +173,31 @@ class _SliderPageState extends State<SliderPage> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () async {
+              onPressed: _isLoading ? null : () async {
+                setState(() {
+                  _isLoading = true; // 开始加载
+                });
                 try {
                   await updateField(widget.choice.title.toLowerCase(), _currentValue);
                   Navigator.pop(context);
                 } catch (e) {
                   print("Failed to update field: $e");
-                  // Optionally show a Snackbar or dialog with the error message
+                } finally {
+                  if (mounted) {
+                    setState(() {
+                      _isLoading = false; // 结束加载
+                    });
+                  }
                 }
               },
-              child: Text('Confirm'),
+              child: _isLoading ? CircularProgressIndicator() : Text('Confirm'),
             ),
           ],
         ),
       ),
     );
   }
+}
 
   Future<void> updateField(String field, double value) async {
     final user = FirebaseAuth.instance.currentUser;
@@ -210,18 +209,27 @@ class _SliderPageState extends State<SliderPage> {
           if (!snapshot.exists) {
             throw Exception("User document does not exist!");
           }
-          // Ensure that the field exists and is a double
+
           double newValue = (snapshot.get(field) as num).toDouble() + value;
           transaction.update(docRef, {field: newValue});
+
+          double plastic = (snapshot.get('plastic') as num).toDouble();
+          double organic = (snapshot.get('organic') as num).toDouble();
+          double glass = (snapshot.get('glass') as num).toDouble();
+          double metal = (snapshot.get('metal') as num).toDouble();
+          double paper = (snapshot.get('paper') as num).toDouble();
+          double others = (snapshot.get('others') as num).toDouble();
+
+          double totalPoints = plastic + organic + glass + metal + paper + others;
+          totalPoints += newValue - (snapshot.get(field) as num).toDouble(); // 修正总分数
+
+          transaction.update(docRef, {'totalPoints': totalPoints});
         });
       } catch (e) {
         print("Transaction failed: $e");
-        rethrow; // rethrow the error so it can be handled by the caller
+        rethrow; // 重新抛出错误以便调用方处理
       }
     } else {
       throw Exception("User is not logged in!");
     }
   }
-}
-
-

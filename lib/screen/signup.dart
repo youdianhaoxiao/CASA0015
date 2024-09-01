@@ -109,6 +109,7 @@ class _LogInScreenState extends State<signUpScreen> {
       'metal': 0,
       'paper': 0,
       'others': 0,
+      'totalPoints': 0,
     });
   }
 }
