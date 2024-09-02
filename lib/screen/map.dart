@@ -167,6 +167,7 @@ class _MapPageState extends State<mapPage> {
 
     
     setState(() {
+      route.routes.clear();
       route.routes = route.routes.map((polyline) {
         return polyline.copyWith(widthParam: 10);  
       }).toSet();
