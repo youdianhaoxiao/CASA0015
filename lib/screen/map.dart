@@ -159,21 +159,22 @@ class _MapPageState extends State<mapPage> {
 
     setState(() {
       route.routes.clear();
-    });
 
-    await route.drawRoute(
-      points,
-      "Route to Marker",  
-      Color.fromRGBO(130, 78, 210, 1.0),  
-      googleApiKey,
-      travelMode: travelMode,
-    );
-
-    
-    setState(() {
-      route.routes = route.routes.map((polyline) {
-        return polyline.copyWith(widthParam: 10);  
-      }).toSet();
+      route.drawRoute(
+        points,
+        "Route to Marker - $travelMode",  
+        Color.fromRGBO(130, 78, 210, 1.0),  
+        googleApiKey,
+        travelMode: travelMode,
+      ).then((_) {
+        setState(() {
+          route.routes = route.routes.map((polyline) {
+            return polyline.copyWith(widthParam: 10);  
+          }).toSet();
+        });
+      }).catchError((error) {
+        print("Error drawing route: $error");
+      });
     });
   }
 }

@@ -16,12 +16,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  
   static final List<Widget> _widgetOptions = <Widget>[
     RecyclingGrid(),
-    ScoreboardPage(),  
-    const mapPage(),   
-    const LogOutScreen(),  
+    ScoreboardPage(),
+    const mapPage(),
+    const LogOutScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -38,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text('Recycling Tracker'),
         ),
-        body: _widgetOptions.elementAt(_selectedIndex),  
+        body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -122,7 +121,13 @@ class SelectCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded(child: Icon(choice.icon, size: 50.0, color: Colors.green,)),
+            Expanded(
+              child: Icon(
+                choice.icon,
+                size: 50.0,
+                color: Colors.green,
+              ),
+            ),
             Text(choice.title, style: TextStyle(fontSize: 16)),
           ],
         ),
@@ -142,7 +147,7 @@ class SliderPage extends StatefulWidget {
 
 class _SliderPageState extends State<SliderPage> {
   double _currentValue = 0;
-  bool _isLoading = false; 
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -156,19 +161,26 @@ class _SliderPageState extends State<SliderPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 80,  
-              height: 80, 
+              width: 80,
+              height: 80,
               decoration: BoxDecoration(
-                color: Colors.green,  
-                shape: BoxShape.circle,  
+                color: Colors.green,
+                shape: BoxShape.circle,
               ),
               child: Center(
                 child: Icon(
-                  widget.choice.icon,  
-                  size: 50.0,  
-                  color: Colors.white,  
+                  widget.choice.icon,
+                  size: 50.0,
+                  color: Colors.white,
                 ),
               ),
+            ),
+            SizedBox(height: 20),
+            
+            Text(
+              _getDescription(widget.choice.title),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 20), 
             Text(
@@ -191,7 +203,7 @@ class _SliderPageState extends State<SliderPage> {
             ElevatedButton(
               onPressed: _isLoading ? null : () async {
                 setState(() {
-                  _isLoading = true; // 
+                  _isLoading = true;
                 });
                 try {
                   await updateField(widget.choice.title.toLowerCase(), _currentValue);
@@ -201,7 +213,7 @@ class _SliderPageState extends State<SliderPage> {
                 } finally {
                   if (mounted) {
                     setState(() {
-                      _isLoading = false; // 
+                      _isLoading = false;
                     });
                   }
                 }
@@ -213,39 +225,59 @@ class _SliderPageState extends State<SliderPage> {
       ),
     );
   }
-}
 
-  Future<void> updateField(String field, double value) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final docRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
-      try {
-        await FirebaseFirestore.instance.runTransaction((transaction) async {
-          final snapshot = await transaction.get(docRef);
-          if (!snapshot.exists) {
-            throw Exception("User document does not exist!");
-          }
-
-          double newValue = (snapshot.get(field) as num).toDouble() + value;
-          transaction.update(docRef, {field: newValue});
-
-          double plastic = (snapshot.get('plastic') as num).toDouble();
-          double organic = (snapshot.get('organic') as num).toDouble();
-          double glass = (snapshot.get('glass') as num).toDouble();
-          double metal = (snapshot.get('metal') as num).toDouble();
-          double paper = (snapshot.get('paper') as num).toDouble();
-          double others = (snapshot.get('others') as num).toDouble();
-
-          double totalPoints = plastic + organic + glass + metal + paper + others;
-          totalPoints += newValue - (snapshot.get(field) as num).toDouble(); // 
-
-          transaction.update(docRef, {'totalPoints': totalPoints});
-        });
-      } catch (e) {
-        print("Transaction failed: $e");
-        rethrow; 
-      }
-    } else {
-      throw Exception("User is not logged in!");
+  
+  String _getDescription(String title) {
+    switch (title) {
+      case 'Plastic':
+        return 'Plastic includes bottles, containers, bags, etc.';
+      case 'Organics':
+        return 'Organics include food waste, yard waste, etc.';
+      case 'Glass':
+        return 'Glass includes bottles, jars, and other glass products.';
+      case 'Metal':
+        return 'Metal includes cans, foil, and other metal items.';
+      case 'Paper':
+        return 'Paper includes newspapers, cardboard, etc.';
+      case 'Other':
+        return 'Other includes items that don\'t fit into other categories.';
+      default:
+        return '';
     }
   }
+}
+
+Future<void> updateField(String field, double value) async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final docRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+    try {
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        final snapshot = await transaction.get(docRef);
+        if (!snapshot.exists) {
+          throw Exception("User document does not exist!");
+        }
+
+        double newValue = (snapshot.get(field) as num).toDouble() + value;
+        transaction.update(docRef, {field: newValue});
+
+        double plastic = (snapshot.get('plastic') as num).toDouble();
+        double organic = (snapshot.get('organic') as num).toDouble();
+        double glass = (snapshot.get('glass') as num).toDouble();
+        double metal = (snapshot.get('metal') as num).toDouble();
+        double paper = (snapshot.get('paper') as num).toDouble();
+        double others = (snapshot.get('others') as num).toDouble();
+
+        double totalPoints = plastic + organic + glass + metal + paper + others;
+        totalPoints += newValue - (snapshot.get(field) as num).toDouble();
+
+        transaction.update(docRef, {'totalPoints': totalPoints});
+      });
+    } catch (e) {
+      print("Transaction failed: $e");
+      rethrow;
+    }
+  } else {
+    throw Exception("User is not logged in!");
+  }
+}
