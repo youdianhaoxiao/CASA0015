@@ -149,12 +149,16 @@ class _MapPageState extends State<mapPage> {
     geoJson.dispose();
   }
 
+  LatLng? _lastDestination;
+
   Future<void> _drawRoute(TravelModes travelMode, [LatLng? destination]) async {
-    if (_currentL == null || destination == null) return;
+    if (_currentL == null || (destination == null && _lastDestination == null)) return;
+
+    _lastDestination = destination ?? _lastDestination;
 
     List<LatLng> points = [
       _currentL!,
-      destination,
+      _lastDestination!,
     ];
 
     setState(() {
@@ -163,7 +167,7 @@ class _MapPageState extends State<mapPage> {
       route.drawRoute(
         points,
         "Route to Marker - $travelMode",  
-        Color.fromRGBO(130, 78, 210, 1.0),  
+       Color.fromRGBO(130, 78, 210, 1.0),  
         googleApiKey,
         travelMode: travelMode,
       ).then((_) {
@@ -177,4 +181,5 @@ class _MapPageState extends State<mapPage> {
       });
     });
   }
+
 }
