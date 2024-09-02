@@ -157,6 +157,10 @@ class _MapPageState extends State<mapPage> {
       destination,
     ];
 
+    setState(() {
+      route.routes.clear();
+    });
+
     await route.drawRoute(
       points,
       "Route to Marker",  
@@ -167,7 +171,6 @@ class _MapPageState extends State<mapPage> {
 
     
     setState(() {
-      route.routes.clear();
       route.routes = route.routes.map((polyline) {
         return polyline.copyWith(widthParam: 10);  
       }).toSet();
