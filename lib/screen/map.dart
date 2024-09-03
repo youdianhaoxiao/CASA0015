@@ -6,15 +6,14 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_routes/google_maps_routes.dart'; 
 import 'package:recycle_app/screen/home.dart';
 
-
 class mapPage extends StatefulWidget {
   const mapPage({super.key});
 
   @override
-  State<mapPage > createState() => _MapPageState();
+  State<mapPage> createState() => _mapPageState();
 }
 
-class _MapPageState extends State<mapPage> {
+class _mapPageState extends State<mapPage> {
   Location _locationController = Location();
   static const LatLng _pgoogle = LatLng(51.5074, -0.1278);
 
@@ -22,7 +21,7 @@ class _MapPageState extends State<mapPage> {
   Set<Marker> _markers = {};
   GoogleMapController? _mapController;
   late MapsRoutes route;
-  final String googleApiKey = 'AIzaSyANkjGanrCgEMwuFCt1FJw_leNRoO_bd_M'; 
+  final String googleApiKey = 'AIzaSyANkjGanrCgEMwuFCt1FJw_leNRoO_bd_M';
 
   @override
   void initState() {
@@ -130,7 +129,7 @@ class _MapPageState extends State<mapPage> {
 
     await geoJson.parse(geoJsonData);
 
-    Set<Marker> geoJsonMarkers = geoJson.points.map((point) {
+    Set<Marker> geoJsonMarkers = geoJson.points.map((GeoJsonPoint point) {
       return Marker(
         markerId: MarkerId(point.geoPoint.toString()),
         position: LatLng(point.geoPoint.latitude, point.geoPoint.longitude),
@@ -138,7 +137,7 @@ class _MapPageState extends State<mapPage> {
           title: "Recycling Centre",
           snippet: "${point.geoPoint.latitude}, ${point.geoPoint.longitude}",
         ),
-        onTap: () => _drawRoute(TravelModes.driving, LatLng(point.geoPoint.latitude, point.geoPoint.longitude)),
+        onTap: () => _showAnnotationDialog(context, point),
       );
     }).toSet();
 
@@ -149,16 +148,60 @@ class _MapPageState extends State<mapPage> {
     geoJson.dispose();
   }
 
-  LatLng? _lastDestination;
+  Future<void> _showAnnotationDialog(BuildContext context, GeoJsonPoint point) async {
+    TextEditingController _controller = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Add Annotation'),
+          content: TextField(
+            controller: _controller,
+            decoration: InputDecoration(hintText: "Enter your annotation"),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _addAnnotation(point, _controller.text);
+                Navigator.of(context).pop();
+              },
+              child: Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _addAnnotation(GeoJsonPoint point, String annotation) {
+    setState(() {
+      _markers.removeWhere((marker) => marker.markerId == MarkerId(point.geoPoint.toString()));
+
+      _markers.add(
+        Marker(
+          markerId: MarkerId(point.geoPoint.toString()),
+          position: LatLng(point.geoPoint.latitude, point.geoPoint.longitude),
+          infoWindow: InfoWindow(
+            title: "Recycling Centre",
+            snippet: annotation,
+          ),
+          onTap: () => _showAnnotationDialog(context, point),
+        ),
+      );
+    });
+  }
 
   Future<void> _drawRoute(TravelModes travelMode, [LatLng? destination]) async {
-    if (_currentL == null || (destination == null && _lastDestination == null)) return;
-
-    _lastDestination = destination ?? _lastDestination;
+    if (_currentL == null || destination == null) return;
 
     List<LatLng> points = [
       _currentL!,
-      _lastDestination!,
+      destination,
     ];
 
     setState(() {
@@ -167,7 +210,7 @@ class _MapPageState extends State<mapPage> {
       route.drawRoute(
         points,
         "Route to Marker - $travelMode",  
-       Color.fromRGBO(130, 78, 210, 1.0),  
+        Color.fromRGBO(130, 78, 210, 1.0),  
         googleApiKey,
         travelMode: travelMode,
       ).then((_) {
@@ -181,5 +224,4 @@ class _MapPageState extends State<mapPage> {
       });
     });
   }
-
 }
