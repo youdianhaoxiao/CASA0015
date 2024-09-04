@@ -3,8 +3,8 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
+    <img src="readme_img/logo.png" alt="Logo" width="180" height="180">
   </a>
 
   <p align="center">
@@ -51,29 +51,43 @@ Main Interfaces：
 
 ### Feature Highlights
 * Users sign up and Log in: Users can register for an app account by providing an email address and setting a password. Once registered, they can log in using their email and password to access and enjoy the app's features.
-  
+
 <div align=center>
-  <img src="src/current_location.gif" alt="Signup & Signin" width="200" />
+  <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
+    <img src="readme_img/Sign.gif" alt="Signup" width="200" />
+  </a>
 </div>
 
 * **Waste Classification Record**: Once users successfully log in, they are presented with eight different waste categories on the interface. By clicking on any category card, users can view textual explanations for that category along with a slider. Users can accurately identify the type of waste they need to recycle and record the weight of the recyclable waste by adjusting the slider.
+
 <div align=center>
-  <img src="src/current_location.gif" alt="Classification Record" width="200" />
+  <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
+    <img src="readme_img/Track.gif" alt="Signup" width="200" />
+  </a>
 </div>
 
 * **Ranking Score Board**: Users can navigate to the Scoreboard page by clicking on the navigation bar located at the bottom of the screen. This page displays the top ten users based on the total weight of recycled waste they have stored.
+
 <div align=center>
-  <img src="src/current_location.gif" alt="Score Board" width="200" />
+  <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
+    <img src="readme_img/Score.gif" alt="Score" width="200" />
+  </a>
 </div>
 
 * **Real-time Route Planning**:The Map interface displays the addresses of all current recycling stations in London, marked in red. The user's real-time location is shown with a blue marker (if the user has granted the app permission to access their location). By clicking on a red marker, the page will display the route from the user's location to that destination. Users can switch between different modes of transportation for route navigation using the buttons at the bottom of the screen.
+
 <div align=center>
-  <img src="src/current_location.gif" alt="Map" width="200" />
+  <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
+    <img src="readme_img/Map.gif" alt="Signup" width="200" />
+  </a>
 </div>
 
 * **Account Information**: The Profile interface displays the user's information, including email address, user name and the weight of recycled waste recorded under each category. Users can also log out through this interface.
+
 <div align=center>
-  <img src="src/current_location.gif" alt="Profile" width="200" />
+  <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
+    <img src="readme_img/Profile.gif" alt="Signup" width="200" />
+  </a>
 </div>
 
 
