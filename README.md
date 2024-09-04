@@ -51,9 +51,9 @@ Main Interfaces：
 
 ### Feature Highlights
 * Users sign up and Log in: Users can register for an app account by providing an email address and setting a password. Once registered, they can log in using their email and password to access and enjoy the app's features.
-  
+
 <div align=center>
-  <img src="src/current_location.gif" alt="Signup & Signin" width="200" />
+  <img src="readme_img/sign.gif" alt="Signup & Signin" width="200" />
 </div>
 
 * **Waste Classification Record**: Once users successfully log in, they are presented with eight different waste categories on the interface. By clicking on any category card, users can view textual explanations for that category along with a slider. Users can accurately identify the type of waste they need to recycle and record the weight of the recyclable waste by adjusting the slider.
