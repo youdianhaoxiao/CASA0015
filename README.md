@@ -1,8 +1,6 @@
-<div id="top"></div>
 
 # WasteWise Recycle App
 
-<!-- 项目 LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
@@ -81,16 +79,14 @@ Main Interfaces：
 
 ### Dependencies
 
-Dependencies used in the project
-
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [firebase_core](https://pub.dev/packages/firebase_core): Responsible for connecting and initializing your Flutter app with your Firebase project.
+* [firebase_auth](https://pub.dev/packages/firebase_auth): Integrate Firebase Authentication into Flutter app to supports various authentication methods.
+* [google_maps_flutter](https://pub.dev/packages/google_maps_flutter): Used for embedding interactive and customizable maps provided by Google Maps services within your app.
+* [location](https://pub.dev/packages/location): Used for getting the current location of the device by access the device's GPS sensor to fetch latitude and longitude.
+* [geojson](https://pub.dev/packages/geojson): Used to parse and generate GeoJSON data, a format for encoding geographic data structures. 
+* [flutter_polyline_points](https://pub.dev/packages/flutter_polyline_points): Utilized for fetching polyline points from the Google Maps Directions API to draw routes between two geographical locations on a map.
+* [cloud_firestore](https://pub.dev/packages/cloud_firestore): Integrates the Cloud Firestore service into Flutter app to store and sync data between users and devices in real-time with offline support.
+* [google_maps_routes](https://pub.dev/packages/google_maps_routes): Helps with generating and displaying routes using the Google Maps API.
 
 
 
