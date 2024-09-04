@@ -115,7 +115,7 @@ Get started with WasteWise and enhance your recycling efforts today.
 
 **For Android Users**: 
 
-WasteWise is just a tap away. Visit our [GitHub Releases page](https://nextjs.org/) to find the most recent version of the app. Download the .apk file and follow the standard installation procedure for Android applications to start your journey with WasteWise.
+WasteWise is just a tap away. Visit our [GitHub Releases page](https://github.com/youdianhaoxiao/CASA0015-RecyleApp/releases/tag/v1.2.43) to find the most recent version of the app. Download the `.apk` file and follow the standard installation procedure for Android applications to get start with WasteWise.
 
 **For iOS Users**: 
 
