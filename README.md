@@ -70,7 +70,7 @@ Main Interfaces：
 
 <div align=center>
   <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
-    <img src="readme_img/sign.gif" alt="Score" width="200" />
+    <img src="readme_img/Score.gif" alt="Score" width="200" />
   </a>
 </div>
 
