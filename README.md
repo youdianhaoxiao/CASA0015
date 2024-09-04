@@ -143,7 +143,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Contact Details
 
-If you have any questions about the project or any innovative ideas you'd like to discuss, please don't hesitate to contact me via [Email](mailto:ucfnega@ucl.ac.uk). 
+If you have any questions about the project or any innovative ideas you'd like to discuss, please don't hesitate to contact me via **Email:** [getisshuaibi@gmail.com](mailto:getisshuaibi@gmail.com). 
 
 Your feedback and suggestions are invaluable as we strive to improve and expand our project.
 
