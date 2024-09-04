@@ -4,13 +4,13 @@
 <br />
 <div align="center">
   <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
-    <img src="readme_img/logo.png" alt="Logo" width="180" height="180">
+    <img src="readme_img/logo.png" alt="Logo" width="250" height="250">
   </a>
 
   <p align="center">
     <br />
     ·
-    <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp">Demo</a>
+    <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp">Code</a>
     ·
   </p>
 </div>
@@ -35,9 +35,13 @@
 
 ## Overview
 
-[![Overview Workflow][product-screenshot]](https://example.com)
-
 WasteWise is dedicated to helping users efficiently and conveniently sort and track recyclable waste, improving recycling efficiency and promoting higher recycling rates among residents, all while contributing to the protection of the environment.
+
+<div align=center>
+  <a href="https://github.com/youdianhaoxiao/CASA0015-RecyleApp/blob/main/">
+    <img src="readme_img/app_workflow.png" alt="Overview Workflow" height="300" />
+  </a>
+</div>
 
 Main Interfaces：
 * Login Screen
